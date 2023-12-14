@@ -83,9 +83,42 @@ type XeroContactPerson {
   includeInEmails: Boolean
 }
 
+type XeroInvoice {
+  invoiceID: ID!
+  type: String
+  status: XeroInvoiceStatus
+  lineAmountTypes: String
+  currencyCode: String
+  date: String
+  dueDate: String
+  lineItems: [XeroLineItem]
+  subTotal: Float
+  totalTax: Float
+  total: Float
+  invoiceNumber: String
+  reference: String
+  hasAttachments: Boolean
+  updatedDateUTC: String
+  currencyRate: Float
+  remainingCredit: Float
+  amountDue: Float
+  amountPaid: Float
+  fullyPaidOnDate: String
+  amountCredited: Float
+  brandingThemeID: ID
+  hasErrors: Boolean
+  contact: XeroContact
+}
+
 input XeroCreateTokenSetInput {
   url: String!
   scopeSet: XeroScopeSet!
+}
+
+input XeroListTransactionsInput {
+  scopeSet: XeroScopeSet!
+  statuses: [XeroInvoiceStatus]
+  page: Int
 }
 
 type XeroCreateTokenSetResponse {
@@ -150,7 +183,7 @@ type Query {
   getUser(id: ID!): User @aws_iam @aws_cognito_user_pools
 
   # XERO
-
+  xeroListTransactions(input: XeroListTransactionsInput): [XeroInvoice]
 }
 
 # ****************************************************************************

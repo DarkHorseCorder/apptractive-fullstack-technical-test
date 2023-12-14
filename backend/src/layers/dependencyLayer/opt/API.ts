@@ -36,6 +36,68 @@ export type XeroCreateTokenSetInput = {
   scopeSet: XeroScopeSet,
 };
 
+export type XeroListTransactionsInput = {
+  scopeSet: XeroScopeSet,
+  statuses?: Array< XeroInvoiceStatus | null > | null,
+  page?: number | null,
+};
+
+export enum XeroInvoiceStatus {
+  DRAFT = "DRAFT",
+  SUBMITTED = "SUBMITTED",
+  DELETED = "DELETED",
+  AUTHORISED = "AUTHORISED",
+  PAID = "PAID",
+  VOIDED = "VOIDED",
+}
+
+
+export type XeroInvoice = {
+  __typename: "XeroInvoice",
+  invoiceID: string,
+  type?: string | null,
+  status?: XeroInvoiceStatus | null,
+  lineAmountTypes?: string | null,
+  currencyCode?: string | null,
+  date?: string | null,
+  dueDate?: string | null,
+  lineItems?:  Array<XeroLineItem | null > | null,
+  subTotal?: number | null,
+  totalTax?: number | null,
+  total?: number | null,
+  invoiceNumber?: string | null,
+  reference?: string | null,
+  hasAttachments?: boolean | null,
+  updatedDateUTC?: string | null,
+  currencyRate?: number | null,
+  remainingCredit?: number | null,
+  amountDue?: number | null,
+  amountPaid?: number | null,
+  fullyPaidOnDate?: string | null,
+  amountCredited?: number | null,
+  brandingThemeID?: string | null,
+  hasErrors?: boolean | null,
+  contact?: XeroContact | null,
+};
+
+export type XeroLineItem = {
+  __typename: "XeroLineItem",
+  lineItemID: string,
+  description?: string | null,
+  quantity?: number | null,
+  unitAmount?: number | null,
+  itemCode?: string | null,
+  accountCode?: string | null,
+  accountID?: string | null,
+  taxType?: string | null,
+  taxAmount?: number | null,
+  lineAmount?: number | null,
+  taxNumber?: number | null,
+  discountRate?: number | null,
+  discountAmount?: number | null,
+  repeatingInvoiceID?: string | null,
+};
+
 export type XeroContact = {
   __typename: "XeroContact",
   contactID: string,
@@ -99,62 +161,6 @@ export type XeroContactPerson = {
   includeInEmails?: boolean | null,
 };
 
-export enum XeroInvoiceStatus {
-  DRAFT = "DRAFT",
-  SUBMITTED = "SUBMITTED",
-  DELETED = "DELETED",
-  AUTHORISED = "AUTHORISED",
-  PAID = "PAID",
-  VOIDED = "VOIDED",
-}
-
-
-export type XeroInvoice = {
-  __typename: "XeroInvoice",
-  invoiceID: string,
-  type?: string | null,
-  status?: XeroInvoiceStatus | null,
-  lineAmountTypes?: string | null,
-  currencyCode?: string | null,
-  date?: string | null,
-  dueDate?: string | null,
-  lineItems?:  Array<XeroLineItem | null > | null,
-  subTotal?: number | null,
-  totalTax?: number | null,
-  total?: number | null,
-  invoiceNumber?: string | null,
-  reference?: string | null,
-  hasAttachments?: boolean | null,
-  updatedDateUTC?: string | null,
-  currencyRate?: number | null,
-  remainingCredit?: number | null,
-  amountDue?: number | null,
-  amountPaid?: number | null,
-  fullyPaidOnDate?: string | null,
-  amountCredited?: number | null,
-  brandingThemeID?: string | null,
-  hasErrors?: boolean | null,
-  contact?: XeroContact | null,
-};
-
-export type XeroLineItem = {
-  __typename: "XeroLineItem",
-  lineItemID: string,
-  description?: string | null,
-  quantity?: number | null,
-  unitAmount?: number | null,
-  itemCode?: string | null,
-  accountCode?: string | null,
-  accountID?: string | null,
-  taxType?: string | null,
-  taxAmount?: number | null,
-  lineAmount?: number | null,
-  taxNumber?: number | null,
-  discountRate?: number | null,
-  discountAmount?: number | null,
-  repeatingInvoiceID?: string | null,
-};
-
 export type UpdateUserMutationVariables = {
   input?: UpdateUserInput | null,
 };
@@ -209,72 +215,8 @@ export type GetUserQuery = {
   } | null,
 };
 
-export type XeroListContactsQueryVariables = {
-  page?: number | null,
-};
-
-export type XeroListContactsQuery = {
-  xeroListContacts?:  Array< {
-    __typename: "XeroContact",
-    contactID: string,
-    contactNumber?: string | null,
-    accountNumber?: string | null,
-    contactStatus?: string | null,
-    name?: string | null,
-    firstName?: string | null,
-    lastName?: string | null,
-    companyNumber?: string | null,
-    emailAddress?: string | null,
-    bankAccountDetails?: string | null,
-    taxNumber?: string | null,
-    accountsReceivableTaxType?: string | null,
-    accountsPayableTaxType?: string | null,
-    addresses?:  Array< {
-      __typename: "XeroAddress",
-      addressType?: string | null,
-      addressLine1?: string | null,
-      addressLine2?: string | null,
-      addressLine3?: string | null,
-      addressLine4?: string | null,
-      city?: string | null,
-      region?: string | null,
-      postalCode?: string | null,
-      country?: string | null,
-      attentionTo?: string | null,
-    } | null > | null,
-    phones?:  Array< {
-      __typename: "XeroPhone",
-      phoneType?: string | null,
-      phoneNumber?: string | null,
-      phoneAreaCode?: string | null,
-      phoneCountryCode?: string | null,
-    } | null > | null,
-    isSupplier?: boolean | null,
-    isCustomer?: boolean | null,
-    defaultCurrency?: string | null,
-    updatedDateUTC?: string | null,
-    contactPersons?:  Array< {
-      __typename: "XeroContactPerson",
-      firstName?: string | null,
-      lastName?: string | null,
-      emailAddress?: string | null,
-      includeInEmails?: boolean | null,
-    } | null > | null,
-    hasAttachments?: boolean | null,
-    xeroNetworkKey?: string | null,
-    salesDefaultAccountCode?: string | null,
-    purchasesDefaultAccountCode?: string | null,
-    trackingCategoryName?: string | null,
-    trackingCategoryOption?: string | null,
-    paymentTerms?: string | null,
-    website?: string | null,
-    discount?: number | null,
-  } | null > | null,
-};
-
 export type XeroListTransactionsQueryVariables = {
-  statuses?: Array< XeroInvoiceStatus | null > | null,
-  page?: number | null,
+  input?: XeroListTransactionsInput | null,
 };
 
 export type XeroListTransactionsQuery = {
