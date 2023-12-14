@@ -1,0 +1,333 @@
+# ****************************************************************************
+# USER
+# ****************************************************************************
+type User @aws_iam @aws_cognito_user_pools {
+  id: ID!
+  identityId: ID
+  email: AWSEmail
+  firstName: String
+  lastName: String
+  phone: AWSPhone
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  owner: String
+}
+input UpdateUserInput {
+  id: ID!
+  firstName: String
+  lastName: String
+}
+
+# ****************************************************************************
+# XERO
+# ****************************************************************************
+type XeroAddress {
+  addressType: String
+  addressLine1: String
+  addressLine2: String
+  addressLine3: String
+  addressLine4: String
+  city: String
+  region: String
+  postalCode: String
+  country: String
+  attentionTo: String
+}
+
+input XeroCreateConsentUrlInput {
+  scopeSet: XeroScopeSet!
+}
+
+type XeroContact {
+  contactID: ID!
+  contactNumber: String
+  accountNumber: String
+  contactStatus: String
+  name: String
+  firstName: String
+  lastName: String
+  companyNumber: String
+  emailAddress: String
+  bankAccountDetails: String
+  taxNumber: String
+  accountsReceivableTaxType: String
+  accountsPayableTaxType: String
+  addresses: [XeroAddress]
+  phones: [XeroPhone]
+  isSupplier: Boolean
+  isCustomer: Boolean
+  defaultCurrency: String
+  updatedDateUTC: String
+  contactPersons: [XeroContactPerson]
+  hasAttachments: Boolean
+  xeroNetworkKey: String
+  salesDefaultAccountCode: String
+  purchasesDefaultAccountCode: String
+  # salesTrackingCategories: [XeroTrackingCategory]
+  # purchasesTrackingCategories: [XeroTrackingCategory]
+  trackingCategoryName: String
+  trackingCategoryOption: String
+  paymentTerms: String
+  # contactGroups: [XeroContactGroup]
+  website: String
+  # brandingTheme: XeroBrandingTheme
+  # batchPayments: XeroBatchPayment
+  discount: Float
+  # balances: XeroBalances
+}
+
+type XeroContactPerson {
+  firstName: String
+  lastName: String
+  emailAddress: String
+  includeInEmails: Boolean
+}
+
+input XeroCreateTokenSetInput {
+  url: String!
+  scopeSet: XeroScopeSet!
+}
+
+type XeroCreateTokenSetResponse {
+  token: String
+  expiresIn: Int
+  user: XeroCreateTokenSetUser
+}
+
+type XeroCreateTokenSetUser {
+  email: String
+  givenName: String
+  familyName: String
+}
+
+enum XeroScopeSet {
+  PROFILE
+  ACCOUNTING
+}
+
+enum XeroInvoiceStatus {
+  DRAFT
+  SUBMITTED
+  DELETED
+  AUTHORISED
+  PAID
+  VOIDED
+}
+
+type XeroLineItem {
+  lineItemID: ID!
+  description: String
+  quantity: Float
+  unitAmount: Float
+  itemCode: String
+  accountCode: String
+  accountID: String
+  taxType: String
+  taxAmount: Float
+  lineAmount: Float
+  taxNumber: Float
+  # item: XeroLineItemItem
+  # tracking: [XeroLineItemTracking]
+  discountRate: Float
+  discountAmount: Float
+  repeatingInvoiceID: String
+}
+
+type XeroPhone {
+  phoneType: String
+  phoneNumber: String
+  phoneAreaCode: String
+  phoneCountryCode: String
+}
+
+# ****************************************************************************
+# QUERIES
+# ****************************************************************************
+
+type Query {
+
+  # USERS
+  getUser(id: ID!): User @aws_iam @aws_cognito_user_pools
+
+  # XERO
+
+}
+
+# ****************************************************************************
+# MUTATIONS
+# ****************************************************************************
+
+type Mutation {
+  # USERS
+  updateUser(input: UpdateUserInput): User @aws_cognito_user_pools
+
+  # XERO
+  xeroCreateConsentUrl(input: XeroCreateConsentUrlInput): String
+    @aws_iam
+    @aws_cognito_user_pools
+    @aws_api_key
+  xeroCreateTokenSet(input: XeroCreateTokenSetInput): String
+    @aws_iam
+    @aws_cognito_user_pools
+    @aws_api_key
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  in: [String]
+  notIn: [String]
+}
+
+input ModelSubscriptionIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  in: [Int]
+  notIn: [Int]
+}
+
+input ModelSubscriptionFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  in: [Float]
+  notIn: [Float]
+}
+
+input ModelSubscriptionBooleanInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelSubscriptionIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  in: [ID]
+  notIn: [ID]
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+input ModelStringKeyConditionInput {
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  between: [String]
+  beginsWith: String
+}

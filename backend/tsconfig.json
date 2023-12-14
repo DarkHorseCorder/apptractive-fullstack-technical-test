@@ -1,0 +1,30 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "commonjs",
+    "outDir": "../dist/out-tsc",
+    "types": ["node", "jest"],
+    "typeRoots": [
+      "./src/layers/dependencyLayer/nodejs/node_modules/@types"
+    ],
+    "paths": {
+      "*": [
+        "./src/layers/dependencyLayer/nodejs/node_modules/*"
+      ],
+      "/opt/*": [
+        "./src/layers/dependencyLayer/opt/*"
+      ]
+    }
+  },
+  "include": [],
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}
