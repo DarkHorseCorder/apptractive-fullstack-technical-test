@@ -85,6 +85,11 @@ Once the stories are complete, let us know and we will review together. Create a
 4. Enter the redirect URI as https://localhost:4200/xero-redirect (it will be used in oauth2 to exchange code for access token) 
 5. Once app is created, generate the client ID and Client Secret for application access
 
+## Story001
+
+![287797789-a81a1417-480e-4e22-b7c3-1989efa72297](https://github.com/DarkHorseCorder/apptractive-fullstack-technical-test/assets/120799088/6190c89b-6bb6-411d-8aba-022873758691)
+
+
 ### TEST002 - Connect to Xero API
 **As a** developer
 
@@ -95,6 +100,16 @@ Once the stories are complete, let us know and we will review together. Create a
 #### Acceptance Criteria
 1. Insert the generated Xero client ID and Client Secret into the project to allow connecting to the Xero API (search `xeroClientId` and `xeroClientSecret` in the project)
 2. Ensure client Secret is not exposed in the code
+
+## Story002
+1. Inserted the generated Xero client ID and Client Secret into the project by adding them in .env file
+
+   ![287798101-c6f20e80-b598-4aef-a76d-1c77431fe2dc](https://github.com/DarkHorseCorder/apptractive-fullstack-technical-test/assets/120799088/c567f49f-cbea-4bcf-89ac-5a442c4f7fad)
+
+2. add .env file in .gitignore to not exposed in the code
+
+  ![287798406-9ff00d9e-527b-4515-a942-fdfa647b6d37](https://github.com/DarkHorseCorder/apptractive-fullstack-technical-test/assets/120799088/96cb71fa-452f-4e81-97cc-a92b7b75cdc2)
+
 
 ### TEST003 - Set up AWS CDK
 **As a** developer
@@ -113,6 +128,20 @@ Once the stories are complete, let us know and we will review together. Create a
 
 #### Developer notes
 - Quick and Easy way to authenticate to your AWS account is to generate secret and access keys. https://docs.aws.amazon.com/cli/latest/userguide/cli-authentication-user.html `aws configure --profile enterprofilename`), otherwise more ways here https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html
+
+## Story003
+1. Create new IAM user account and configure AWS CLI with new profile
+2. Install AWS CDK using `npm install -g aws-cdk`
+3. Bootstrap the backend using `npx nx bootstrap backend --profile marko_salme`
+4. Deploy the lambda layer stack using `npx nx deploy backend FULLayerStack --profile marko_salme`
+   
+![287840672-feabd71a-61f7-48d1-ab38-d44d27395e4a](https://github.com/DarkHorseCorder/apptractive-fullstack-technical-test/assets/120799088/a7031b02-ff08-4578-a68b-6667e3458b02)
+
+5. Deploy all stacks in the backend using `npx nx deploy backend --all --require-approval=never --outputs-file output.json --profile marko_salme`
+
+![287843762-874b8d74-fcf4-430b-8297-be633d50350c](https://github.com/DarkHorseCorder/apptractive-fullstack-technical-test/assets/120799088/7978178d-8412-4f9d-b6bd-4f0f3500ec33)
+
+6. Copy output file to react-app application by running `yarn run output` 
 
 ### TEST004 - Authenticated user - Connect Xero button
 **As an** user
