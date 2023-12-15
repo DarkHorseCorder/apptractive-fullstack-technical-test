@@ -201,6 +201,39 @@ export class AppSyncAPIStack extends Stack {
       })
     );
 
+    //xero get invoices
+    const xeroListTransactions = new LambdaAppSyncOperationConstruct(
+      this,
+      'XeroListTransactionsQuery',
+      {
+        api,
+        fieldName: 'xeroListTransactions',
+        typeName: 'Query',
+        environmentVars: {
+          AUTH_USERPOOLID: props.userPool.userPoolId,
+          FUNCTION_CREATEUSER: props.createUserFuncName,
+          TABLE_USER: props.userTable.tableName,
+          XERO_CLIENT_ID: props.xeroClientId,
+          XERO_CLIENT_SECRET: props.xeroClientSecret,
+          ENV: props.stage,
+        },
+      }
+    );
+
+    xeroListTransactions.lambda.role?.attachInlinePolicy(
+      new Policy(this, 'XeroListTransactionsFunc', {
+        statements: [
+          new PolicyStatement({
+            actions: ['lambda:InvokeFunction'],
+            resources: [
+              `arn:aws:lambda:${props.env?.region}:${props.env?.account}:function:${props.createUserFuncName}`,
+            ],
+          }),
+        ],
+      })
+    );
+
     props.userTable.grantReadWriteData(xeroCreateTokenSet.lambda);
+    props.userTable.grantReadWriteData(xeroListTransactions.lambda);
   }
 }

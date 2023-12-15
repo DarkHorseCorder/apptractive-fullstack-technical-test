@@ -17,65 +17,9 @@ export const getUser = /* GraphQL */ `
     }
   }
 `;
-export const xeroListContacts = /* GraphQL */ `
-  query XeroListContacts($page: Int) {
-    xeroListContacts(page: $page) {
-      contactID
-      contactNumber
-      accountNumber
-      contactStatus
-      name
-      firstName
-      lastName
-      companyNumber
-      emailAddress
-      bankAccountDetails
-      taxNumber
-      accountsReceivableTaxType
-      accountsPayableTaxType
-      addresses {
-        addressType
-        addressLine1
-        addressLine2
-        addressLine3
-        addressLine4
-        city
-        region
-        postalCode
-        country
-        attentionTo
-      }
-      phones {
-        phoneType
-        phoneNumber
-        phoneAreaCode
-        phoneCountryCode
-      }
-      isSupplier
-      isCustomer
-      defaultCurrency
-      updatedDateUTC
-      contactPersons {
-        firstName
-        lastName
-        emailAddress
-        includeInEmails
-      }
-      hasAttachments
-      xeroNetworkKey
-      salesDefaultAccountCode
-      purchasesDefaultAccountCode
-      trackingCategoryName
-      trackingCategoryOption
-      paymentTerms
-      website
-      discount
-    }
-  }
-`;
 export const xeroListTransactions = /* GraphQL */ `
-  query XeroListTransactions($statuses: [XeroInvoiceStatus], $page: Int) {
-    xeroListTransactions(statuses: $statuses, page: $page) {
+  query XeroListTransactions($input: XeroListTransactionsInput) {
+    xeroListTransactions(input: $input) {
       invoiceID
       type
       status

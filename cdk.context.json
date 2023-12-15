@@ -1,3 +1,4 @@
 {
-  "ssm:account=727355274795:parameterName=dependencyLambdaLayer:region=us-east-1": "arn:aws:lambda:us-east-1:727355274795:layer:DependencyLayerE4A0C251:1"
+  "ssm:account=727355274795:parameterName=dependencyLambdaLayer:region=us-east-1": "arn:aws:lambda:us-east-1:727355274795:layer:DependencyLayerE4A0C251:1",
+  "ssm:account=016392013799:parameterName=dependencyLambdaLayer:region=us-east-1": "arn:aws:lambda:us-east-1:016392013799:layer:DependencyLayerE4A0C251:1"
 }
